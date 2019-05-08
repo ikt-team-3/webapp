@@ -1,8 +1,15 @@
-<html>
-	<head>
-		<title>Homepage</title>
-	</head>
-	<body>
-		<h1>Hello world!</h1>
-	</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - Почетна
+{% endblock %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+	Најавен е корисникот {{ user.email }}
+{% else %}
+	<a href="{% url 'login' %}">Најави се</a>
+{% endif %}
+
+{% endblock %}
