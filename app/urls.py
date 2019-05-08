@@ -8,4 +8,7 @@ urlpatterns = [
 
     # example: /login
     path('login', views.login, name='login'),
+
+    # exapmle: /register
+    path('register', views.register, name='register'),
 ]

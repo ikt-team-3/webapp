@@ -9,7 +9,7 @@ FINKIForum - Почетна
 {% if user.is_authenticated %}
 	Најавен е корисникот {{ user.email }}
 {% else %}
-	<a href="{% url 'login' %}">Најави се</a>
+	<a href="{% url 'login' %}">Најави се</a> или <a href="{% url 'register' %}">регистрирај се</a>.
 {% endif %}
 
 {% endblock %}

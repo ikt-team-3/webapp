@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - Регистрација
+{% endblock %}
+
+{% block body %}
+
+{% for error in errors %}
+  <p>{{ error }}</p>
+{% endfor %}
+
+<form method="post" action="{% url 'register' %}">
+	{% csrf_token %}
+	<table>
+		<tr>
+		  <td>
+		  	<label for="email">E-mail</label>
+		  </td>
+		  <td>
+		  	<input id="email" name="email" type="email" placeholder="E-Mail">
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		  	<label for="password">Лозинка</label>
+		  </td>
+		  <td>
+		  	<input id="password" name="password" type="password" placeholder="Лозинка">
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		  	<label for="confirmpassword">Повторете лозинка</label>
+		  </td>
+		  <td>
+		  	<input id="confirmpassword" name="confirmpassword" type="password" placeholder="Повторете лозинка">
+		  </td>
+		</tr>
+	</table>
+	<input type="submit" value="Регистрирај се" />
+</form>
+
+{% endblock %}
