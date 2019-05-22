@@ -61,7 +61,9 @@ def register(request):
             context['errors'].append('Веќе постои корисник со дадената email адреса')
             return render(request, 'app/register.html', context)
 
-        User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
+        new_user = User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
+        new_korisnik = Korisnik(user=new_user)
+        new_korisnik.save()
         return render(request, 'app/successful_register.html')
 
 
@@ -125,5 +127,7 @@ def api_register(request):
             context['errors'].append('Веќе постои корисник со дадената email адреса')
             return JsonResponse(context)
 
-        User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
+        new_user = User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
+        new_korisnik = Korisnik(user=new_user)
+        new_korisnik.save()
         return JsonResponse({'status': 'OK'})
