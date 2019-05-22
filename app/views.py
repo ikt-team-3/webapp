@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
-from .models import Predmet
+from .models import Predmet, Tema
 
 
 def index(request):
@@ -78,6 +78,17 @@ def forum_predmet(request, predmet):
         'predmet': predmet_object
     }
     return render(request, 'app/forum_predmet.html', context)
+
+
+def forum_tema(request, predmet, tema):
+    if request.method == 'GET':
+        tema_object = get_object_or_404(Tema, id=tema)
+        if tema_object.predmet.naslov_id != predmet:
+            raise Http404
+        context = {
+            'tema': tema_object
+        }
+        return render(request, 'app/forum_tema.html', context)
 
 
 @csrf_exempt

@@ -8,7 +8,7 @@ FINKIForum - {{ predmet.naslov }}
 <h1>{{ predmet.naslov }}</h1>
 
 {% for tema in predmet.tema_set.all %}
-<a href="#">{{ tema.naslov }}</a> - {{ tema.poraka_set.count }}
+<a href="{% url 'forum_tema' predmet=predmet.naslov_id tema=tema.id %}">{{ tema.naslov }}</a> - {{ tema.poraka_set.count }}
 {% endfor %}
 
 {% endblock %}

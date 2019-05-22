@@ -14,6 +14,8 @@ urlpatterns = [
     path('forum', views.forum_homepage, name='forum_homepage'),
     # example: /forum/upravuvanje-so-ikt-proekti
     path('forum/<slug:predmet>', views.forum_predmet, name='forum_predmet'),
+    # example: /forum/upravuvanje-so-ikt-proekti
+    path('forum/<slug:predmet>/<int:tema>', views.forum_tema, name='forum_tema'),
 
     # API views
     # example: /api/login

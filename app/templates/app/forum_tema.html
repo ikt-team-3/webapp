@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - {{ tema.naslov }}
+{% endblock %}
+
+{% block body %}
+<h1>{{ tema.naslov }}</h1>
+<h3>{{ tema.predmet.naslov }}</h3>
+
+{% for poraka in tema.poraka_set.all %}
+<p>{{ poraka.tekst }}</p>
+{% endfor %}
+
+{% endblock %}
