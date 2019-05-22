@@ -12,4 +12,13 @@ FINKIForum - {{ tema.naslov }}
 <p>{{ poraka.tekst }}</p>
 {% endfor %}
 
+{% if user.is_authenticated %}
+<form method="post" id="novaporaka">
+	{% csrf_token %}
+	<label for="poraka">Порака:</label><br>
+	<textarea id="poraka" name="poraka" rows="4" cols="50" form="novaporaka"></textarea><br>
+	<input type="submit" value="Прати">
+</form>
+{% endif %}
+
 {% endblock %}

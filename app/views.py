@@ -4,7 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
-from .models import Predmet, Tema
+from .models import Predmet, Tema, Poraka, Korisnik
 
 
 def index(request):
@@ -81,14 +81,24 @@ def forum_predmet(request, predmet):
 
 
 def forum_tema(request, predmet, tema):
+    tema_object = get_object_or_404(Tema, id=tema)
+    if tema_object.predmet.naslov_id != predmet:
+        raise Http404
+    context = {
+        'tema': tema_object
+    }
     if request.method == 'GET':
-        tema_object = get_object_or_404(Tema, id=tema)
-        if tema_object.predmet.naslov_id != predmet:
-            raise Http404
-        context = {
-            'tema': tema_object
-        }
         return render(request, 'app/forum_tema.html', context)
+    elif request.method =='POST':
+        if request.user.is_authenticated:
+            if len(request.POST.get('poraka', '')) == 0:
+                context['errors'] = ['Внесете порака']
+                return render(request, 'app/forum_tema.html', context)
+            nova_poraka = Poraka(avtor=request.user.korisnik,
+                                 tekst=request.POST.get('poraka'),
+                                 tema=tema_object)
+            nova_poraka.save()
+            return render(request, 'app/forum_tema.html', context)
 
 
 @csrf_exempt
