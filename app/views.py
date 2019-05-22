@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
@@ -70,6 +70,14 @@ def forum_homepage(request):
         'predmeti': Predmet.objects.all()
     }
     return render(request, 'app/forum_homepage.html', context)
+
+
+def forum_predmet(request, predmet):
+    predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
+    context = {
+        'predmet': predmet_object
+    }
+    return render(request, 'app/forum_predmet.html', context)
 
 
 @csrf_exempt

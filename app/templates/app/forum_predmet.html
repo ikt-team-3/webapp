@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - {{ predmet.naslov }}
+{% endblock %}
+
+{% block body %}
+<h1>{{ predmet.naslov }}</h1>
+
+{% for tema in predmet.tema_set.all %}
+<a href="#">{{ tema.naslov }}</a> - {{ tema.poraka_set.count }}
+{% endfor %}
+
+{% endblock %}

@@ -7,7 +7,7 @@ FINKIForum - Форум
 {% block body %}
 
 {% for predmet in predmeti %}
-	<a href="#">{{ predmet.naslov }}</a> - {{ predmet.tema_set.count }}<br>
+	<a href="{% url 'forum_predmet' predmet=predmet.naslov_id %}">{{ predmet.naslov }}</a> - {{ predmet.tema_set.count }}<br>
 {% endfor %}
 
 {% endblock %}

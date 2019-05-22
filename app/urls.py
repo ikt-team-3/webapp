@@ -12,6 +12,8 @@ urlpatterns = [
     path('register', views.register, name='register'),
     # example: /forum
     path('forum', views.forum_homepage, name='forum_homepage'),
+    # example: /forum/upravuvanje-so-ikt-proekti
+    path('forum/<slug:predmet>', views.forum_predmet, name='forum_predmet'),
 
     # API views
     # example: /api/login

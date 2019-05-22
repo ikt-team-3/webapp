@@ -11,9 +11,13 @@ class Korisnik(models.Model):
 
 class Predmet(models.Model):
     naslov = models.CharField(max_length=200)
+    naslov_id = models.CharField(max_length=200)
 
     class Meta:
         verbose_name_plural = "predmeti"
+
+    def __str__(self):
+        return self.naslov
 
 
 class Tema(models.Model):
@@ -24,6 +28,9 @@ class Tema(models.Model):
     class Meta:
         verbose_name_plural = "temi"
 
+    def __str__(self):
+        return self.naslov
+
 
 class Poraka(models.Model):
     tekst = models.TextField()
@@ -32,3 +39,6 @@ class Poraka(models.Model):
 
     class Meta:
         verbose_name_plural = "poraki"
+
+    def __str__(self):
+        return self.tekst
