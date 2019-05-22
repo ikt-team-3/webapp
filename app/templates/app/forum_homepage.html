@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - Форум
+{% endblock %}
+
+{% block body %}
+
+{% for predmet in predmeti %}
+	<a href="#">{{ predmet.naslov }}</a> - {{ predmet.tema_set.count }}<br>
+{% endfor %}
+
+{% endblock %}

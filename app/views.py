@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Predmet
 
 
 def index(request):
@@ -62,6 +63,13 @@ def register(request):
 
         User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
         return render(request, 'app/successful_register.html')
+
+
+def forum_homepage(request):
+    context = {
+        'predmeti': Predmet.objects.all()
+    }
+    return render(request, 'app/forum_homepage.html', context)
 
 
 @csrf_exempt

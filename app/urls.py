@@ -10,6 +10,8 @@ urlpatterns = [
     path('login', views.login, name='login'),
     # exapmle: /register
     path('register', views.register, name='register'),
+    # example: /forum
+    path('forum', views.forum_homepage, name='forum_homepage'),
 
     # API views
     # example: /api/login
