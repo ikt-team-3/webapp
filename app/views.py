@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from .models import Predmet, Tema, Poraka, Korisnik
@@ -101,6 +102,34 @@ def forum_tema(request, predmet, tema):
                                  tema=tema_object)
             nova_poraka.save()
             return render(request, 'app/forum_tema.html', context)
+
+
+@login_required
+def forum_nova_tema(request, predmet):
+    predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
+    context = {
+        'predmet': predmet_object,
+        'errors': []
+    }
+    if request.method == 'GET':
+        return render(request, 'app/forum_nova_tema.html', context)
+    elif request.method == 'POST':
+        if len(request.POST.get('poraka', '')) == 0:
+            context['errors'].append('Внесете порака')
+        if len(request.POST.get('naslov', '')) == 0:
+            context['errors'].append('Внесете тема')
+        if context['errors']:
+            return render(request, 'app/forum_nova_tema.html', context)
+
+        nova_tema = Tema(avtor=request.user.korisnik,
+                         predmet=predmet_object,
+                         naslov=request.POST.get('naslov'))
+        nova_tema.save()
+        nova_poraka = Poraka(avtor=request.user.korisnik,
+                             tema=nova_tema,
+                             tekst=request.POST.get('poraka'))
+        nova_poraka.save()
+        return redirect('forum_tema', predmet=predmet_object.naslov_id, tema=nova_tema.id)
 
 
 @csrf_exempt
