@@ -137,7 +137,7 @@ def forum_nova_tema(request, predmet):
 
 @csrf_exempt
 def api_register(request):
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         json_data = json.loads(request.body)
         context = {
             'errors': []
@@ -156,11 +156,11 @@ def api_register(request):
         if len(context['errors']) > 0:
             return JsonResponse(context)
 
-        if User.objects.filter(email=json_data.get('email')).exists():
+        if User.objects.filter(email=json_data.get('username')).exists():
             context['errors'].append('Веќе постои корисник со дадената email адреса')
             return JsonResponse(context)
 
-        new_user = User.objects.create_user(json_data.get('email'), json_data.get('email'), json_data.get('password'))
+        new_user = User.objects.create_user(json_data.get('username'), json_data.get('username'), json_data.get('password'))
         new_korisnik = Korisnik(user=new_user)
         new_korisnik.save()
         return JsonResponse({'status': 'OK'})
