@@ -10,7 +10,7 @@ FINKIForum - {{ predmet.naslov }}
 {% for tema in predmet.tema_set.all %}
 <a href="{% url 'forum_tema' predmet=predmet.naslov_id tema=tema.id %}">{{ tema.naslov }}</a> - {{ tema.poraka_set.count }}
 {% endfor %}
-
-<a href="{% url 'forum_nova_tema' %}">Нова тема</a>
+<br>
+<a href="{% url 'forum_nova_tema' predmet=predmet.naslov_id %}">Нова тема</a>
 
 {% endblock %}
