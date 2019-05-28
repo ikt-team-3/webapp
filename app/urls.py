@@ -29,5 +29,7 @@ urlpatterns = [
     # example: /api/forum/upravuvanje-so-ikt-proekti
     path('api/forum/<slug:predmet>', views.api_forum_predmet, name='api_forum_predmet'),
     # example: /api/forum/upravuvanje-so-ikt-proekti/1
-    path('api/forum/<slug:predmet>/<int:tema>', views.api_forum_tema, name='api_forum_tema')
+    path('api/forum/<slug:predmet>/<int:tema>', views.api_forum_tema, name='api_forum_tema'),
+    # example: /api/forum/upravuvanje-so-ikt-proekti/new
+    path('api/forum/<slug:predmet>/new', views.api_forum_nova_tema, name='api_forum_nova_tema'),
 ]

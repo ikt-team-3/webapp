@@ -205,3 +205,30 @@ def api_forum_tema(request, predmet, tema):
             nova_poraka.save()
             result['status'] = 'OK'
             return JsonResponse(result)
+
+
+@api_view(['POST'])
+@login_required
+def api_forum_nova_tema(request, predmet):
+    predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
+    json_data = json.loads(request.body.decode('utf-8'))
+    result = {
+        'errors': []
+    }
+    if len(json_data.get('poraka', '')) == 0:
+        result['errors'].append('Внесете порака')
+    if len(json_data.get('naslov', '')) == 0:
+        result['errors'].append('Внесете тема')
+    if result['errors']:
+        result['status'] = 'failed'
+        return JsonResponse(result)
+
+    nova_tema = Tema(avtor=request.user.korisnik,
+                     predmet=predmet_object,
+                     naslov=json_data.get('naslov'))
+    nova_tema.save()
+    nova_poraka = Poraka(avtor=request.user.korisnik,
+                         tema=nova_tema,
+                         tekst=json_data.get('poraka'))
+    nova_poraka.save()
+    return JsonResponse({'status': 'OK'})
