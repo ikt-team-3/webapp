@@ -9,6 +9,7 @@ from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from .models import Predmet, Tema, Poraka, Korisnik
 from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer
+from rest_framework.decorators import api_view
 
 
 def index(request):
@@ -136,6 +137,7 @@ def forum_nova_tema(request, predmet):
 
 
 @csrf_exempt
+@api_view(['POST'])
 def api_register(request):
     if request.method == 'POST':
         json_data = json.loads(request.body.decode('utf-8'))
@@ -166,18 +168,22 @@ def api_register(request):
         return JsonResponse({'status': 'OK'})
 
 
+@api_view(['GET'])
 def api_forum_homepage(request):
     predmeti = Predmet.objects.all()
     serializer = PredmetSerializer(predmeti, many=True)
     return JsonResponse(serializer.data, safe=False)
 
 
+@api_view(['GET'])
 def api_forum_predmet(request, predmet):
     predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
     serializer = SinglePredmetSerializer(predmet_object)
     return JsonResponse(serializer.data, safe=False)
 
 
+@csrf_exempt
+@api_view(['GET', 'POST'])
 def api_forum_tema(request, predmet, tema):
     tema_object = get_object_or_404(Tema, id=tema)
     if tema_object.predmet.naslov_id != predmet:
@@ -186,14 +192,15 @@ def api_forum_tema(request, predmet, tema):
         serializer = SingleTemaSerializer(tema_object)
         return JsonResponse(serializer.data, safe=False)
     elif request.method =='POST':
+        json_data = json.loads(request.body.decode('utf-8'))
         result = {}
         if request.user.is_authenticated:
-            if len(request.POST.get('poraka', '')) == 0:
+            if len(json_data.get('poraka', '')) == 0:
                 result['errors'] = ['Внесете порака']
                 result['status'] = 'failed'
                 return JsonResponse(result)
             nova_poraka = Poraka(avtor=request.user.korisnik,
-                                 tekst=request.POST.get('poraka'),
+                                 tekst=json_data.get('poraka'),
                                  tema=tema_object)
             nova_poraka.save()
             result['status'] = 'OK'
