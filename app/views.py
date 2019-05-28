@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -135,29 +137,30 @@ def forum_nova_tema(request, predmet):
 
 @csrf_exempt
 def api_register(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
+        json_data = json.loads(request.body)
         context = {
             'errors': []
         }
-        if request.POST.get('email', '') == '':
+        if json_data.get('username', '') == '':
             context['errors'].append('Внесете email адреса')
-        if request.POST.get('password', '') == '':
+        if json_data.get('password', '') == '':
             context['errors'].append('Внесете лозинка')
-        if request.POST.get('confirmpassword', '') == '':
+        if json_data.get('confirmpassword', '') == '':
             context['errors'].append('Внесете ја лозинката повторно')
-        if request.POST.get('confirmpassword', '') != request.POST.get('password', ''):
+        if json_data.get('confirmpassword', '') != request.POST.get('password', ''):
             context['errors'].append('Лозинките не се совпаѓаат')
-        if len(request.POST.get('password', '.......')) < 6:
+        if len(json_data.get('password', '.......')) < 6:
             context['errors'].append('Лозинката треба да има повеќе од 6 карактери')
 
         if len(context['errors']) > 0:
             return JsonResponse(context)
 
-        if User.objects.filter(email=request.POST.get('email')).exists():
+        if User.objects.filter(email=json_data.get('email')).exists():
             context['errors'].append('Веќе постои корисник со дадената email адреса')
             return JsonResponse(context)
 
-        new_user = User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
+        new_user = User.objects.create_user(json_data.get('email'), json_data.get('email'), json_data.get('password'))
         new_korisnik = Korisnik(user=new_user)
         new_korisnik.save()
         return JsonResponse({'status': 'OK'})
@@ -179,5 +182,19 @@ def api_forum_tema(request, predmet, tema):
     tema_object = get_object_or_404(Tema, id=tema)
     if tema_object.predmet.naslov_id != predmet:
         raise Http404
-    serializer = SingleTemaSerializer(tema_object)
-    return JsonResponse(serializer.data, safe=False)
+    if request.method == 'GET':
+        serializer = SingleTemaSerializer(tema_object)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method =='POST':
+        result = {}
+        if request.user.is_authenticated:
+            if len(request.POST.get('poraka', '')) == 0:
+                result['errors'] = ['Внесете порака']
+                result['status'] = 'failed'
+                return JsonResponse(result)
+            nova_poraka = Poraka(avtor=request.user.korisnik,
+                                 tekst=request.POST.get('poraka'),
+                                 tema=tema_object)
+            nova_poraka.save()
+            result['status'] = 'OK'
+            return JsonResponse(result)
