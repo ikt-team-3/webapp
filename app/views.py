@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from .models import Predmet, Tema, Poraka, Korisnik
+from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer
 
 
 def index(request):
@@ -160,3 +161,23 @@ def api_register(request):
         new_korisnik = Korisnik(user=new_user)
         new_korisnik.save()
         return JsonResponse({'status': 'OK'})
+
+
+def api_forum_homepage(request):
+    predmeti = Predmet.objects.all()
+    serializer = PredmetSerializer(predmeti, many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+def api_forum_predmet(request, predmet):
+    predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
+    serializer = SinglePredmetSerializer(predmet_object)
+    return JsonResponse(serializer.data, safe=False)
+
+
+def api_forum_tema(request, predmet, tema):
+    tema_object = get_object_or_404(Tema, id=tema)
+    if tema_object.predmet.naslov_id != predmet:
+        raise Http404
+    serializer = SingleTemaSerializer(tema_object)
+    return JsonResponse(serializer.data, safe=False)
