@@ -148,7 +148,7 @@ def api_register(request):
             context['errors'].append('Внесете лозинка')
         if json_data.get('confirmpassword', '') == '':
             context['errors'].append('Внесете ја лозинката повторно')
-        if json_data.get('confirmpassword', '') != request.POST.get('password', ''):
+        if json_data.get('confirmpassword', '') != json_data.get('password', ''):
             context['errors'].append('Лозинките не се совпаѓаат')
         if len(json_data.get('password', '.......')) < 6:
             context['errors'].append('Лозинката треба да има повеќе од 6 карактери')
