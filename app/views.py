@@ -138,7 +138,7 @@ def forum_nova_tema(request, predmet):
 @csrf_exempt
 def api_register(request):
     if request.method == 'POST':
-        json_data = json.loads(request.body)
+        json_data = json.loads(request.body.decode('utf-8'))
         context = {
             'errors': []
         }
