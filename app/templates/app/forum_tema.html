@@ -9,6 +9,7 @@ FINKIForum - {{ tema.naslov }}
 <h3>{{ tema.predmet.naslov }}</h3>
 
 {% for poraka in tema.poraka_set.all %}
+    <b>{{ poraka.avtor.ime }} {{ poraka.avtor.prezime }}</b>
 <p>{{ poraka.tekst }}</p>
 {% endfor %}
 

@@ -7,7 +7,7 @@ class TemaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tema
-        fields = ('id', 'post_count', 'naslov', 'avtor')
+        fields = ('id', 'post_count', 'naslov')
 
     def get_post_count(self, obj):
         return obj.poraka_set.count()
@@ -25,11 +25,14 @@ class PredmetSerializer(serializers.ModelSerializer):
 
 
 class PorakaSerializer(serializers.ModelSerializer):
+    avtor_ime = serializers.SerializerMethodField()
 
     class Meta:
         model = Poraka
         fields = ('id', 'tekst', 'avtor')
 
+    def get_avtor_ime(self, obj):
+        return f"{obj.avtor.ime} {obj.avtor.prezime}"
 
 class SinglePredmetSerializer(serializers.ModelSerializer):
     tema_set = TemaSerializer(many=True, read_only=True)

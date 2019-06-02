@@ -58,6 +58,10 @@ def register(request):
             context['errors'].append('Лозинките не се совпаѓаат')
         if len(request.POST.get('password', '.......')) < 6:
             context['errors'].append('Лозинката треба да има повеќе од 6 карактери')
+        if len(request.POST.get('ime', '')) == 0:
+            context['errors'].append('Внесете име')
+        if len(request.POST.get('prezime', '')) == 0:
+            context['errors'].append('Внесете презиме')
 
         if len(context['errors']) > 0:
             return render(request, 'app/register.html', context)
@@ -67,7 +71,7 @@ def register(request):
             return render(request, 'app/register.html', context)
 
         new_user = User.objects.create_user(request.POST.get('email'), request.POST.get('email'), request.POST.get('password'))
-        new_korisnik = Korisnik(user=new_user)
+        new_korisnik = Korisnik(user=new_user, ime=request.POST.get('ime'), prezime=request.POST.get('prezime'))
         new_korisnik.save()
         return render(request, 'app/successful_register.html')
 
@@ -154,6 +158,10 @@ def api_register(request):
             context['errors'].append('Лозинките не се совпаѓаат')
         if len(json_data.get('password', '.......')) < 6:
             context['errors'].append('Лозинката треба да има повеќе од 6 карактери')
+        if len(json_data.get('ime', '')) == 0:
+            context['errors'].append('Внесете име')
+        if len(json_data.get('prezime', '')) == 0:
+            context['errors'].append('Внесете презиме')
 
         if len(context['errors']) > 0:
             return JsonResponse(context)
@@ -163,7 +171,7 @@ def api_register(request):
             return JsonResponse(context)
 
         new_user = User.objects.create_user(json_data.get('username'), json_data.get('username'), json_data.get('password'))
-        new_korisnik = Korisnik(user=new_user)
+        new_korisnik = Korisnik(user=new_user, ime=json_data.get('ime'), prezime=json_data.get('prezime'))
         new_korisnik.save()
         return JsonResponse({'status': 'OK'})
 
