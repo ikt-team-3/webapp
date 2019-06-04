@@ -25,7 +25,7 @@ FINKIForum - Форум
 				{% for predmet in predmeti %}
 				<tr>
 					<td><a href="{% url 'forum_predmet' predmet=predmet.naslov_id %}">{{ predmet.naslov }}</a></td>
-					<td>{{ predmet.tema_set.count }}</td>
+					<td>{{ predmet.temi.count }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

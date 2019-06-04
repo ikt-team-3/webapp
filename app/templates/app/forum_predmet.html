@@ -17,16 +17,16 @@ FINKIForum - {{ predmet.naslov }}
 			{{ predmet.naslov }}
 		</div>
 	</div>
-	{% for tema in predmet.tema_set.all %}
+	{% for tema in temi %}
 	<div class="riga-forum2">
 		<div class="topics">
 			<div class="topic-section">
 				<div class="topic-title"><h3>{{ tema.naslov }}</h3></div>
-				<div class="topic-meta"> last reply..</div>
+				<div class="topic-meta">Последна порака: {{ tema.newest_timestamp }}</div>
 			</div>
 		</div>
 		<div class="stats">
-			<div class="replies">{{ tema.poraka_set.count }} пораки</div>
+			<div class="replies">{{ tema.poraki.count }} пораки</div>
 		</div>
 		<div class="last-post">
 			<a href="{% url 'forum_tema' predmet=predmet.naslov_id tema=tema.id %}">

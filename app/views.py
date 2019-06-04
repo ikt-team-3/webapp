@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Max
 from .models import Predmet, Tema, Poraka, Korisnik
 from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer
 from rest_framework.decorators import api_view
@@ -93,7 +94,8 @@ def forum_homepage(request):
 def forum_predmet(request, predmet):
     predmet_object = get_object_or_404(Predmet, naslov_id=predmet)
     context = {
-        'predmet': predmet_object
+        'predmet': predmet_object,
+        'temi': predmet_object.temi.annotate(newest_timestamp=Max('poraki__timestamp')).order_by('-newest_timestamp')
     }
     return render(request, 'app/forum_predmet.html', context)
 
@@ -103,7 +105,8 @@ def forum_tema(request, predmet, tema):
     if tema_object.predmet.naslov_id != predmet:
         raise Http404
     context = {
-        'tema': tema_object
+        'tema': tema_object,
+        'poraki': tema_object.poraki.order_by('timestamp')
     }
     if request.method == 'GET':
         return render(request, 'app/forum_tema.html', context)

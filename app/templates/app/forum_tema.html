@@ -8,9 +8,10 @@ FINKIForum - {{ tema.naslov }}
 <h1>{{ tema.naslov }}</h1>
 <h3>{{ tema.predmet.naslov }}</h3>
 
-{% for poraka in tema.poraka_set.all %}
+{% for poraka in poraki %}
     <b>{{ poraka.avtor.ime }} {{ poraka.avtor.prezime }}</b>
 <p>{{ poraka.tekst }}</p>
+<i>{{ poraka.timestamp }}</i><br>
 {% endfor %}
 
 {% if user.is_authenticated %}

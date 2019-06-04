@@ -24,8 +24,8 @@ class Predmet(models.Model):
 
 class Tema(models.Model):
     naslov = models.CharField(max_length=200)
-    avtor = models.ForeignKey(Korisnik, on_delete=models.SET_NULL, blank=True, null=True)
-    predmet = models.ForeignKey(Predmet, on_delete=models.CASCADE)
+    avtor = models.ForeignKey(Korisnik, related_name='temi', on_delete=models.SET_NULL, blank=True, null=True)
+    predmet = models.ForeignKey(Predmet, related_name='temi', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "temi"
@@ -36,8 +36,9 @@ class Tema(models.Model):
 
 class Poraka(models.Model):
     tekst = models.TextField()
-    avtor = models.ForeignKey(Korisnik, on_delete=models.SET_NULL, blank=True, null=True)
-    tema = models.ForeignKey(Tema, on_delete=models.CASCADE)
+    avtor = models.ForeignKey(Korisnik, related_name='poraki', on_delete=models.SET_NULL, blank=True, null=True)
+    tema = models.ForeignKey(Tema, related_name='poraki', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "poraki"
