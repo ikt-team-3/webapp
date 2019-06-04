@@ -5,22 +5,46 @@ FINKIForum - {{ tema.naslov }}
 {% endblock %}
 
 {% block body %}
-<h1>{{ tema.naslov }}</h1>
-<h3>{{ tema.predmet.naslov }}</h3>
 
-{% for poraka in poraki %}
-    <b>{{ poraka.avtor.ime }} {{ poraka.avtor.prezime }}</b>
-<p>{{ poraka.tekst }}</p>
-<i>{{ poraka.timestamp }}</i><br>
-{% endfor %}
+<div class="panel panel-default">
+	<div class="panel-heading" style="background: #33caab;color: white">
+		<h5>
+			<a href="{% url 'forum_predmet' predmet=tema.predmet.naslov_id %}" style="color: white">{{ tema.predmet.naslov }}</a>
+		</h5>
+		<h3>{{ tema.naslov }}</h3>
+	</div>
+	<div class="panel-body">
+		{% for poraka in poraki %}
+		<div class="media">
+			<div class="media-body">
+				<h4 class="media-heading">{{ poraka.avtor.ime }} {{ poraka.avtor.prezime }}</h4>
+				<p>{{ poraka.tekst }}</p>
+				<ul class="list-inline list-unstyled">
+					<li>
+						<span>
+							<i class="glyphicon glyphicon-calendar"></i> 
+							{{ poraka.timestamp }}
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
 
 {% if user.is_authenticated %}
-<form method="post" id="novaporaka">
-	{% csrf_token %}
-	<label for="poraka">Порака:</label><br>
-	<textarea id="poraka" name="poraka" rows="4" cols="50" form="novaporaka"></textarea><br>
-	<input type="submit" value="Прати">
-</form>
+<div class="card my-4">
+	<div class="card-body">
+		<form method="post" id="novaporaka">
+			{% csrf_token %}
+			<div class="form-group">
+				<textarea id="poraka" name="poraka" form="novaporaka" class="form-control" rows="3" placeholder="Напиши порака"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">Испрати</button>
+		</form>
+	</div>
+</div>
 {% endif %}
 
 {% endblock %}
