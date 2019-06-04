@@ -4,34 +4,44 @@
 FINKIForum - Најави се
 {% endblock %}
 
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "app/css/LoginRegistracija.css" %}">
+{% endblock %}
+
 {% block body %}
-
-{% for error in errors %}
-  <p>{{ error }}</p>
-{% endfor %}
-
-<form method="post" action="{% url 'login' %}">
-	{% csrf_token %}
-	<table>
-		<tr>
-		  <td>
-		  	<label for="email">E-mail</label>
-		  </td>
-		  <td>
-		  	<input id="email" name="email" type="email" placeholder="E-Mail">
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-		  	<label for="password">Лозинка</label>
-		  </td>
-		  <td>
-		  	<input id="password" name="password" type="password" placeholder="Лозинка">
-		  </td>
-		</tr>
-	</table>
-	<input type="submit" value="Најави се" />
-	<input type="hidden" name="next" value="{{ next }}" />
-</form>
+<div class="main-w3layouts wrapper">
+	<h1>Најави се</h1>
+	<div class="main-agileinfo">
+		<div class="agileits-top">
+			<form action="{% url 'login' %}" method="post">
+				{% csrf_token %}
+				<input class="text email" type="email" name="email" placeholder="Емаил" required="">
+				<input class="text" type="password" name="password" placeholder="Лозинка" required="">
+				<div class="wthree-text">
+					<ul>
+					{% for error in errors %}
+					  <li>{{ error }}</li>
+					{% endfor %}
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<input type="submit" value="Потврди">
+			</form>
+		</div>
+	</div>
+	<ul class="colorlib-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
 
 {% endblock %}
