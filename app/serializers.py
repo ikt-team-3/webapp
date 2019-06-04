@@ -32,7 +32,7 @@ class PorakaSerializer(serializers.ModelSerializer):
         fields = ('id', 'tekst', 'avtor')
 
     def get_avtor_ime(self, obj):
-        return f"{obj.avtor.ime} {obj.avtor.prezime}"
+        return obj.avtor.ime + " " + obj.avtor.prezime
 
 class SinglePredmetSerializer(serializers.ModelSerializer):
     tema_set = TemaSerializer(many=True, read_only=True)
