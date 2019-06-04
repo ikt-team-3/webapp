@@ -41,8 +41,12 @@
                 <li><a href="{% url 'forum_homepage' %}">ФОРУМ</a></li>
                 <li><a href="#" style="padding-right:8cm">РАСПОРЕД</a></li>
                 <li><a class="hide"></a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Одјавете се</a></li>
+                {% else %}
                 <li><a href="{% url 'login' %}">Логин</a></li>
                 <li class="nav-item"><a href="{% url 'register' %}"  class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1" >Регистрација</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
