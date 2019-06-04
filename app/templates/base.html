@@ -1,12 +1,83 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
     <title>
       {% block title %}
       {% endblock %}
     </title>
-  </head>
-  <body>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static "app/css/css2.css" %}">
+    <link rel="stylesheet" href="{% static "app/css/css.css" %}">
+    <script type="text/javascript">
+        // Prevent dropdown menu from closing when click inside the form
+        $(document).on("click", ".navbar-right .dropdown-menu", function(e){
+            e.stopPropagation();
+        });
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-default navbar-expand-lg navbar-light">
+        <div class="navbar-header d-flex col">
+            <a class="navbar-brand" href="{% url 'index' %}" style="padding-left:1cm">IO<b>ФОРУМ</b></a>
+            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+                <span class="navbar-toggler-icon"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+            <ul class="nav navbar-nav navbar-right ml-auto text-center" style="padding-right:1cm" >
+                <li><a href="{% url 'forum_homepage' %}">ФОРУМ</a></li>
+                <li><a href="#" style="padding-right:8cm">РАСПОРЕД</a></li>
+                <li><a class="hide"></a></li>
+                <li><a href="{% url 'login' %}">Логин</a></li>
+                <li class="nav-item"><a href="{% url 'register' %}"  class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1" >Регистрација</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END Header -->
+    <div class="container" id="mainContent">
     {% block body %}
     {% endblock %}
-  </body>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer" id="footer" >
+            <div class="container">
+
+                <ul class="social" style="padding-left:12.3cm">
+                    <li> <a href="https://www.facebook.com/"> <i class=" fa fa-facebook">   </i> </a> </li>
+                    <li> <a href="https://www.twitter.com/"> <i class="fa fa-twitter">   </i> </a> </li>
+                    <li> <a href="https://aboutme.google.com"> <i class="fa fa-google-plus">   </i> </a> </li>
+                    <li> <a href="https://www.pinterest.com/"> <i class="fa fa-pinterest">   </i> </a> </li>
+                    <li> <a href="https://www.youtube.com/"> <i class="fa fa-youtube">   </i> </a> </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        </div>
+        <!--/.footer-->
+
+        <div class="footer-bottom">
+            <div class="container text-center">
+                <h5 class="glyphicon glyphicon-copyright-mark">Copyright <b>Тим3-ИКТ </b></h5>
+
+            </div>
+        </div>
+        <!--/.footer-bottom-->
+    </footer>
+    <!-- END Footer -->
+
+</body>
 </html>
