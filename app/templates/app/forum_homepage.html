@@ -6,8 +6,29 @@ FINKIForum - Форум
 
 {% block body %}
 
-{% for predmet in predmeti %}
-	<a href="{% url 'forum_predmet' predmet=predmet.naslov_id %}">{{ predmet.naslov }}</a> - {{ predmet.tema_set.count }}<br>
-{% endfor %}
+<div class="row">
+	<div class="dropdown col-12 text-center">
+		<h2>Форум</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<table class="table table-bordered ">
+			<thead>
+				<tr>
+				</tr>
+			</thead>
+			<tbody>
+				{% for predmet in predmeti %}
+				<tr>
+					<td><a href="{% url 'forum_predmet' predmet=predmet.naslov_id %}">{{ predmet.naslov }}</a></td>
+					<td>{{ predmet.tema_set.count }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 
 {% endblock %}
