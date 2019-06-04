@@ -4,14 +4,47 @@
 FINKIForum - {{ predmet.naslov }}
 {% endblock %}
 
-{% block body %}
-<h1>{{ predmet.naslov }}</h1>
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "app/css/ForumPredmet.css" %}">
+{% endblock %}
 
-{% for tema in predmet.tema_set.all %}
-<a href="{% url 'forum_tema' predmet=predmet.naslov_id tema=tema.id %}">{{ tema.naslov }}</a> - {{ tema.poraka_set.count }}
-{% endfor %}
-<br>
+{% block body %}
+
+<section>
+	<div class="riga-forum">
+		<div class="category-title">
+			{{ predmet.naslov }}
+		</div>
+	</div>
+	{% for tema in predmet.tema_set.all %}
+	<div class="riga-forum2">
+		<div class="topics">
+			<div class="topic-section">
+				<div class="topic-title"><h3>{{ tema.naslov }}</h3></div>
+				<div class="topic-meta"> last reply..</div>
+			</div>
+		</div>
+		<div class="stats">
+			<div class="replies">{{ tema.poraka_set.count }} пораки</div>
+		</div>
+		<div class="last-post">
+			<a href="{% url 'forum_tema' predmet=predmet.naslov_id tema=tema.id %}">
+				<span class="glyphicon  glyphicon-chevron-right" style="font-size:40px;color: #33caab"></span>
+			</a>
+		</div>
+	</div>
+	{% endfor %}
+</section>
+
 {% if user.is_authenticated %}
-<a href="{% url 'forum_nova_tema' predmet=predmet.naslov_id %}">Нова тема</a>
+<div class="row">
+	<div class="col-12 text-center">
+		<a href="{% url 'forum_nova_tema' predmet=predmet.naslov_id %}" >
+			<button type="button" class="btn btn-primary" style="background: #33caab">Додади тема</button>
+		</a>
+	</div>
+</div>
 {% endif %}
+
 {% endblock %}
