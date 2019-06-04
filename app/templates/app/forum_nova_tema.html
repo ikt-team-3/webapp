@@ -5,15 +5,27 @@ FINKIForum - {{ predmet.naslov }} - Нова тема
 {% endblock %}
 
 {% block body %}
-<h3>{{ tema.predmet.naslov }}</h3>
-
 <form method="post" id="novaporaka">
 	{% csrf_token %}
-	<label for="naslov">Наслов:</label><br>
-	<input type="text" name="naslov" id="naslov"><br>
-	<label for="poraka">Порака:</label><br>
-	<textarea id="poraka" name="poraka" rows="4" cols="50" form="novaporaka"></textarea><br>
-	<input type="submit" value="Прати">
-</form>
+	<div class="row">
+		<div class="dropdown col-12 text-center">
+			<div class="form-group">
+				<input type="text" name="naslov" id="naslov" placeholder="Наслов" class="form-control">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="dropdown col-12 text-center">
+			<div class="form-group">
+				<textarea  name="poraka" placeholder="Coдржина" class="form-control" rows="10" id="poraka" form="novaporaka"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 text-center">
+			<input type="submit" class="btn btn-primary btn-lg" value="Испрати">
+		</div>
+	</div>
 
+</form>
 {% endblock %}
