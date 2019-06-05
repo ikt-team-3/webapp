@@ -6,10 +6,6 @@ FINKIForum - Почетна
 
 {% block body %}
 
-{% if user.is_authenticated %}
-	Најавен е корисникот {{ user.email }}
-{% else %}
-	<a href="{% url 'login' %}">Најави се</a> или <a href="{% url 'register' %}">регистрирај се</a>.
-{% endif %}
+<h1 style="text-align: center;">Добредојдовте на ФИНКИ Форум</h1>
 
 {% endblock %}
