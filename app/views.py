@@ -160,6 +160,19 @@ def raspored_prikaz(request):
         }
         return render(request, 'app/raspored_prikaz.html', context)
 
+
+@login_required
+def raspored_izbor(request):
+    if request.method == 'POST':
+        return redirect('raspored_prikaz')
+    elif request.method == 'GET':
+        context = {
+            'predmeti': Predmet.objects.all(),
+            'profesori': Profesor.objects.all()
+        }
+        return render(request, 'app/raspored_izbor.html', context)
+
+
 @csrf_exempt
 @api_view(['POST'])
 def api_register(request):

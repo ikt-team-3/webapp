@@ -22,6 +22,8 @@ urlpatterns = [
     path('forum/<slug:predmet>/new', views.forum_nova_tema, name='forum_nova_tema'),
     # example: /raspored
     path('raspored', views.raspored_prikaz, name='raspored_prikaz'),
+    # example: /raspored/izbor
+    path('raspored/izbor', views.raspored_izbor, name='raspored_izbor'),
 
     # API views
     # example: /api/login
