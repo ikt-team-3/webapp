@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
-from .models import Predmet, Tema, Poraka, Korisnik, Profesor
+from .models import Predmet, Tema, Poraka, Korisnik, Profesor, UserTermin, Termin
 from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer, ProfesorSerializer
 from rest_framework.decorators import api_view
 
@@ -150,13 +150,33 @@ def forum_nova_tema(request, predmet):
         return redirect('forum_tema', predmet=predmet_object.naslov_id, tema=nova_tema.id)
 
 
+def get_day_num(day):
+    days = ['PON', 'VTO', 'SRE', 'CET', 'PET']
+    for i, lday in enumerate(days):
+        if day == lday:
+            return i + 1
+
+
+def get_termin_num(termin):
+    termin = int(termin)
+    return termin - 8
+
+
 def raspored_prikaz(request):
     if not request.user.is_authenticated:
         return render(request, 'app/login_required.html')
     else:
+        termini = [[x, None, None, None, None, None] for x in range(8, 20)]
+        for u in UserTermin.objects.filter(korisnik=request.user.korisnik):
+            t = Termin.objects.filter(predmet=u.predmet, profesor=u.profesor)
+            for termin in t:
+                td = get_day_num(termin.den)
+                th = get_termin_num(termin.vreme)
+                termini[th][td] = termin
         context = {
             'termini': [str(x) for x in range(8, 20)],
-            'denovi': ['Понеделник', 'Вторник', 'Среда', 'Четврток', 'Петок']
+            'denovi': ['Понеделник', 'Вторник', 'Среда', 'Четврток', 'Петок'],
+            'usertermini': termini,
         }
         return render(request, 'app/raspored_prikaz.html', context)
 
@@ -164,11 +184,27 @@ def raspored_prikaz(request):
 @login_required
 def raspored_izbor(request):
     if request.method == 'POST':
+        UserTermin.objects.filter(korisnik=request.user.korisnik).delete()
+        numpredmeti = int(request.POST.get('numpredmeti', ['0'])[0])
+        for i in range(1, numpredmeti+1):
+            prof = int(request.POST.get('prof' + str(i), ['1'])[0])
+            pred = int(request.POST.get('pred' + str(i), ['1'])[0])
+            asis = int(request.POST.get('asis' + str(i), ['1'])[0])
+
+            prof_entry = Profesor.objects.get(id=prof)
+            pred_entry = Predmet.objects.get(id=pred)
+            asis_entry = Profesor.objects.get(id=asis)
+
+            u = UserTermin(predmet=pred_entry, profesor=prof_entry, korisnik=request.user.korisnik)
+            u.save()
+            u = UserTermin(predmet=pred_entry, profesor=asis_entry, korisnik=request.user.korisnik)
+            u.save()
         return redirect('raspored_prikaz')
     elif request.method == 'GET':
         context = {
             'predmeti': Predmet.objects.all(),
-            'profesori': Profesor.objects.all()
+            'profesori': Profesor.objects.all(),
+            'range5': [2, 3, 4, 5, 6]
         }
         return render(request, 'app/raspored_izbor.html', context)
 

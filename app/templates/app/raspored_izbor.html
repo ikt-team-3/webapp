@@ -40,12 +40,12 @@ FINKIForum - Распоред
 		</label>
 	</div>
 	<div class="col-lg-10">
-		<input id="numpredmeti" class="form-control" min="1" max="6" type="number" value="1" onchange="numPredmetiChange(this)">
+		<input id="numpredmeti" name="numpredmeti" class="form-control" min="1" max="6" type="number" value="1" onchange="numPredmetiChange(this)">
 	</div>
 </div>
 <div class="row form-group row" id="predmet1">
 	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred1">
+		<select name="pred1" class="form-control col-lg-4" id="pred1">
 			<option selected>Предмет</option>
 			{% for predmet in predmeti %}
 			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
@@ -53,7 +53,7 @@ FINKIForum - Распоред
 		</select>
 	</div>
 	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof1">
+	<select name="prof1" class="form-control col-lg-4" id="prof1">
 		<option selected>Професор</option>
 		{% for profesor in profesori %}
 		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
@@ -61,149 +61,43 @@ FINKIForum - Распоред
 	</select>
 	</div>
 	<div class="col-lg-4">
-		<select class="form-control" id="asis1">
+		<select name="asis1" class="form-control" id="asis1">
 			<option selected>Асистент</option>
 			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
+			<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
 			{% endfor %}
 		</select>
 	</div>
 </div>
+{% for cntr in range5 %}
+<div class="row form-group row" style="display: none;" id="predmet{{ cntr }}">
+	<div class="col-lg-4">
+		<select name="pred{{ cntr }}" class="form-control col-lg-4" id="pred{{ cntr }}">
+			<option selected>Предмет</option>
+			{% for predmet in predmeti %}
+			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="col-lg-4">
+	<select name="prof{{ cntr }}" class="form-control col-lg-4" id="prof{{ cntr }}">
+		<option selected>Професор</option>
+		{% for profesor in profesori %}
+		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
+		{% endfor %}
+	</select>
+	</div>
+	<div class="col-lg-4">
+		<select name="asis{{ cntr }}" class="form-control" id="asis{{ cntr }}">
+			<option selected>Асистент</option>
+			{% for profesor in profesori %}
+			<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
+			{% endfor %}
+		</select>
+	</div>
+</div>
+{% endfor %}
 
-<div class="row form-group row" style="display: none;" id="predmet2">
-	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred2">
-			<option selected>Предмет</option>
-			{% for predmet in predmeti %}
-			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof2">
-		<option selected>Професор</option>
-		{% for profesor in profesori %}
-		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-		{% endfor %}
-	</select>
-	</div>
-	<div class="col-lg-4">
-		<select class="form-control" id="asis2">
-			<option selected>Асистент</option>
-			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-			{% endfor %}
-		</select>
-	</div>
-</div>
-
-<div class="row form-group row" style="display: none;" id="predmet3">
-	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred3">
-			<option selected>Предмет</option>
-			{% for predmet in predmeti %}
-			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof3">
-		<option selected>Професор</option>
-		{% for profesor in profesori %}
-		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-		{% endfor %}
-	</select>
-	</div>
-	<div class="col-lg-4">
-		<select class="form-control" id="asis3">
-			<option selected>Асистент</option>
-			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-			{% endfor %}
-		</select>
-	</div>
-</div>
-
-<div class="row form-group row" style="display: none;" id="predmet4">
-	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred4">
-			<option selected>Предмет</option>
-			{% for predmet in predmeti %}
-			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof4">
-		<option selected>Професор</option>
-		{% for profesor in profesori %}
-		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-		{% endfor %}
-	</select>
-	</div>
-	<div class="col-lg-4">
-		<select class="form-control" id="asis4">
-			<option selected>Асистент</option>
-			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-			{% endfor %}
-		</select>
-	</div>
-</div>
-
-<div class="row form-group row" style="display: none;" id="predmet5">
-	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred5">
-			<option selected>Предмет</option>
-			{% for predmet in predmeti %}
-			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof5">
-		<option selected>Професор</option>
-		{% for profesor in profesori %}
-		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-		{% endfor %}
-	</select>
-	</div>
-	<div class="col-lg-4">
-		<select class="form-control" id="asis5">
-			<option selected>Асистент</option>
-			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-			{% endfor %}
-		</select>
-	</div>
-</div>
-
-<div class="row form-group row" style="display: none;" id="predmet6">
-	<div class="col-lg-4">
-		<select class="form-control col-lg-4" id="pred6">
-			<option selected>Предмет</option>
-			{% for predmet in predmeti %}
-			<option value="{{ predmet.id }}">{{ predmet.naslov }}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="col-lg-4">
-	<select class="form-control col-lg-4" id="prof6">
-		<option selected>Професор</option>
-		{% for profesor in profesori %}
-		<option value="{{ profesor.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-		{% endfor %}
-	</select>
-	</div>
-	<div class="col-lg-4">
-		<select class="form-control" id="asis6">
-			<option selected>Асистент</option>
-			{% for profesor in profesori %}
-			<option value="{{ predmet.id }}">{{ profesor.prezime }} {{ profesor.titula }} {{ profesor.ime }}</option>
-			{% endfor %}
-		</select>
-	</div>
-</div>
 
 <div class="row  border-bottom border-primary">
 	<div class="col-12 text-center">

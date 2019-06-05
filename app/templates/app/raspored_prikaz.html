@@ -12,11 +12,20 @@ FINKIForum - Распоред
 			<th>{{ den }}</th>
 		{% endfor %}
 	</tr>
-	{% for termin in termini %}
+	{% for termin in usertermini %}
 		<tr>
-			<th style="background:#33caab">{{ termin }}:00 - {{ termin }}:45</th>
-			{% for den in denovi %}
+			{% for den in termin %}
+				{% if forloop.first %}
+				<th style="background:#33caab">{{ termin.0 }}:00 - {{ termin.0 }}:45</th>
+				{% elif den %}
+				<td>
+					<div style="text-align: right;"><b>{{ den.prostorija }}</b></div>
+					<div style="text-align: center;font-size: larger"><b>{{ den.predmet.naslov }}</b></div>
+					<div style="text-align: right;">{{ den.profesor.prezime }} {{ den.profesor.titula }} {{ den.profesor.ime }}</div>
+				</td>
+				{% else %}
 				<td></td>
+				{% endif %}
 			{% endfor %}
 		</tr>
 	{% endfor %}
