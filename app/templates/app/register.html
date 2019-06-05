@@ -4,57 +4,48 @@
 FINKIForum - Регистрација
 {% endblock %}
 
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "app/css/LoginRegistracija.css" %}">
+{% endblock %}
+
 {% block body %}
+<div class="main-w3layouts wrapper">
+    <h1>Регистрација</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form action="{% url 'register' %}" method="post">
+            	{% csrf_token %}
+                <input class="text" type="text" name="ime" placeholder="Име" required="">
+                <input class="text" type="text" name="prezime" placeholder="Презиме" required="">
+                <input class="text email" type="email" name="email" placeholder="Емаил" required="">
+                <input class="text" type="password" name="password" placeholder="Лозинка" required="">
+                <input class="text w3lpass" type="password" name="confirmpassword" placeholder="Потврди лозинка" required="">
+                <div class="wthree-text">
+                	<ul>
+					{% for error in errors %}
+					  <li>{{ error }}</li>
+					{% endfor %}
+					</ul>
+                    <div class="clear"> </div>
+                </div>
+                <input type="submit" value="Регистрирај се">
+            </form>
 
-{% for error in errors %}
-  <p>{{ error }}</p>
-{% endfor %}
-
-<form method="post" action="{% url 'register' %}">
-	{% csrf_token %}
-	<table>
-		<tr>
-		  <td>
-		  	<label for="email">E-mail</label>
-		  </td>
-		  <td>
-		  	<input id="email" name="email" type="email" placeholder="E-Mail">
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-		  	<label for="password">Лозинка</label>
-		  </td>
-		  <td>
-		  	<input id="password" name="password" type="password" placeholder="Лозинка">
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-		  	<label for="confirmpassword">Повторете лозинка</label>
-		  </td>
-		  <td>
-		  	<input id="confirmpassword" name="confirmpassword" type="password" placeholder="Повторете лозинка">
-		  </td>
-		</tr>
-        <tr>
-		  <td>
-		  	<label for="ime">Име</label>
-		  </td>
-		  <td>
-		  	<input id="ime" name="ime" type="text" placeholder="Име">
-		  </td>
-		</tr>
-        <tr>
-		  <td>
-		  	<label for="prezime">Презиме</label>
-		  </td>
-		  <td>
-		  	<input id="prezime" name="prezime" type="text" placeholder="Презиме">
-		  </td>
-		</tr>
-	</table>
-	<input type="submit" value="Регистрирај се" />
-</form>
+        </div>
+    </div>
+    <ul class="colorlib-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
 
 {% endblock %}
