@@ -10,7 +10,7 @@ from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
 from .models import Predmet, Tema, Poraka, Korisnik, Profesor, UserTermin, Termin
-from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer, ProfesorSerializer
+from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer, ProfesorSerializer, TerminSerializer
 from rest_framework.decorators import api_view
 
 
@@ -315,4 +315,33 @@ def api_forum_nova_tema(request, predmet):
 def api_profesori(request):
     profesori = Profesor.objects.all()
     serializer = ProfesorSerializer(profesori, many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['POST'])
+@login_required
+def api_raspored_izbor(request):
+    json_data = json.loads(request.body.decode('utf-8'))
+    try:
+        for predmet in json_data.get('predmeti', []):
+            pred_entry = Predmet.objects.get(id=predmet['predmet'])
+            prof_entry = Profesor.objects.get(id=predmet['profesor'])
+            asis_entry = Profesor.objects.get(id=predmet['asistent'])
+            u = UserTermin(predmet=pred_entry, profesor=prof_entry, korisnik=request.user.korisnik)
+            u.save()
+            u = UserTermin(predmet=pred_entry, profesor=asis_entry, korisnik=request.user.korisnik)
+            u.save()
+            return JsonResponse({'status': 'OK'})
+    except Exception as e:
+        return JsonResponse({'status': 'failed', 'error': str(e)})
+
+
+@api_view(['GET'])
+@login_required
+def api_raspored_prikaz(request):
+    termini = []
+    for u in UserTermin.objects.filter(korisnik=request.user.korisnik):
+        t = Termin.objects.filter(predmet=u.predmet, profesor=u.profesor)
+        termini.extend(t)
+    serializer = TerminSerializer(termini, many=True)
     return JsonResponse(serializer.data, safe=False)

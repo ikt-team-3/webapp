@@ -40,4 +40,8 @@ urlpatterns = [
     path('api/forum/<slug:predmet>/new', views.api_forum_nova_tema, name='api_forum_nova_tema'),
     # example: /api/profesori
     path('api/profesori', views.api_profesori, name='api_profesori'),
+    # example: /api/raspored
+    path('api/raspored', views.api_raspored_prikaz, name='api_raspored_prikaz'),
+    # example: /api/raspored/izbor
+    path('api/raspored/izbor', views.api_raspored_izbor, name='api_raspored_izbor'),
 ]

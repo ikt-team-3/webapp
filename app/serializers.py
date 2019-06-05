@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Predmet, Tema, Poraka, Profesor
+from .models import Predmet, Tema, Poraka, Profesor, Termin
 
 
 class TemaSerializer(serializers.ModelSerializer):
@@ -67,3 +67,22 @@ class ProfesorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profesor
         fields = '__all__'
+
+
+class TerminSerializer(serializers.ModelSerializer):
+    predmet = serializers.SerializerMethodField()
+    profesor = serializers.SerializerMethodField()
+    prostorija = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Termin
+        fields = '__all__'
+
+    def get_predmet(self, obj):
+        return obj.predmet.naslov
+
+    def get_profesor(self, obj):
+        return obj.profesor.prezime + ' ' + obj.profesor.titula + ' ' + obj.profesor.ime
+
+    def get_prostorija(self, obj):
+        return obj.prostorija.oznaka
