@@ -9,8 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
-from .models import Predmet, Tema, Poraka, Korisnik
-from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer
+from .models import Predmet, Tema, Poraka, Korisnik, Profesor
+from .serializers import PredmetSerializer, SinglePredmetSerializer, SingleTemaSerializer, ProfesorSerializer
 from rest_framework.decorators import api_view
 
 
@@ -260,3 +260,10 @@ def api_forum_nova_tema(request, predmet):
                          tekst=json_data.get('poraka'))
     nova_poraka.save()
     return JsonResponse({'status': 'OK'})
+
+
+@api_view(['GET'])
+def api_profesori(request):
+    profesori = Profesor.objects.all()
+    serializer = ProfesorSerializer(profesori, many=True)
+    return JsonResponse(serializer.data, safe=False)

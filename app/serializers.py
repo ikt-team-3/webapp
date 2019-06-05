@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Predmet, Tema, Poraka
+from .models import Predmet, Tema, Poraka, Profesor
 
 
 class TemaSerializer(serializers.ModelSerializer):
@@ -61,3 +61,9 @@ class SingleTemaSerializer(serializers.ModelSerializer):
 
     def get_avtor_ime(self, obj):
         return obj.avtor.ime + " " + obj.avtor.prezime
+
+
+class ProfesorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profesor
+        fields = '__all__'
