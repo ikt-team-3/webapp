@@ -106,5 +106,4 @@ class UserTermin(models.Model):
 
     predmet = models.ForeignKey(Predmet, on_delete=models.CASCADE)
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
-    prostorija = models.ForeignKey(Prostorija, on_delete=models.CASCADE)
     korisnik = models.ForeignKey(Korisnik, related_name='termini', on_delete=models.CASCADE)
