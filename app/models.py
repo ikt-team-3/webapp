@@ -10,6 +10,9 @@ class Korisnik(models.Model):
     class Meta:
         verbose_name_plural = "korisnici"
 
+    def __str__(self):
+        return self.ime + ' ' + self.prezime
+
 
 class Predmet(models.Model):
     naslov = models.CharField(max_length=200)
@@ -45,3 +48,47 @@ class Poraka(models.Model):
 
     def __str__(self):
         return self.tekst
+
+
+class Profesor(models.Model):
+    ime = models.CharField(max_length=100)
+    prezime = models.CharField(max_length=100)
+    titula = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name_plural = "profesori"
+
+    def __str__(self):
+        if self.titula:
+            return self.prezime + ' ' + self.titula + ' ' + self.ime
+        return self.prezime + ' ' + self.ime
+
+
+class Prostorija(models.Model):
+    oznaka = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = "prostorii"
+
+    def __str__(self):
+        return self.oznaka
+
+
+class Termin(models.Model):
+    predmet = models.ForeignKey(Predmet, related_name='termini', on_delete=models.CASCADE)
+    profesor = models.ForeignKey(Profesor, related_name='termini', on_delete=models.CASCADE)
+    prostorija = models.ForeignKey(Prostorija, related_name='termini', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "termini"
+
+    def __str__(self):
+        return self
+
+
+class UserTermin(models.Model):
+
+    predmet = models.ForeignKey(Predmet, on_delete=models.CASCADE)
+    profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
+    prostorija = models.ForeignKey(Prostorija, on_delete=models.CASCADE)
+    korisnik = models.ForeignKey(Korisnik, related_name='termini', on_delete=models.CASCADE)
