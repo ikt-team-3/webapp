@@ -150,6 +150,16 @@ def forum_nova_tema(request, predmet):
         return redirect('forum_tema', predmet=predmet_object.naslov_id, tema=nova_tema.id)
 
 
+def raspored_prikaz(request):
+    if not request.user.is_authenticated:
+        return render(request, 'app/login_required.html')
+    else:
+        context = {
+            'termini': [str(x) for x in range(8, 20)],
+            'denovi': ['Понеделник', 'Вторник', 'Среда', 'Четврток', 'Петок']
+        }
+        return render(request, 'app/raspored_prikaz.html', context)
+
 @csrf_exempt
 @api_view(['POST'])
 def api_register(request):

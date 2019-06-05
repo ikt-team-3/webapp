@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+FINKIForum - Распоред
+{% endblock %}
+
+{% block body %}
+<table class="table table-bordered  text-lg-center ">
+	<tr style="background:#33caab">
+		<th></th>
+		{% for den in denovi %}
+			<th>{{ den }}</th>
+		{% endfor %}
+	</tr>
+	{% for termin in termini %}
+		<tr>
+			<th style="background:#33caab">{{ termin }}:00 - {{ termin }}:45</th>
+			{% for den in denovi %}
+				<td></td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+</table>
+{% endblock %}
