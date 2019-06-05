@@ -41,7 +41,7 @@
         </div>
             <ul class="nav navbar-nav navbar-right ml-auto text-center" style="padding-right:1cm" >
                 <li><a href="{% url 'forum_homepage' %}">ФОРУМ</a></li>
-                <li><a href="#" style="padding-right:8cm">РАСПОРЕД</a></li>
+                <li><a href="{% url 'raspored_prikaz' %}" style="padding-right:8cm">РАСПОРЕД</a></li>
                 <li><a class="hide"></a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'logout' %}">Одјавете се</a></li>
