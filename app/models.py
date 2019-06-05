@@ -79,11 +79,27 @@ class Termin(models.Model):
     profesor = models.ForeignKey(Profesor, related_name='termini', on_delete=models.CASCADE)
     prostorija = models.ForeignKey(Prostorija, related_name='termini', on_delete=models.CASCADE)
 
+    PONEDELNIK = 'PON'
+    VTORNIK = 'VTO'
+    SREDA = 'SRE'
+    CETVRTOK = 'CET'
+    PETOK = 'PET'
+    DEN_CHOICES = (
+        (PONEDELNIK, 'Понеделник'),
+        (VTORNIK, 'Вторник'),
+        (SREDA, 'Среда'),
+        (CETVRTOK, 'Четврток'),
+        (PETOK, 'Петок'),
+    )
+    den = models.CharField(max_length=3, choices=DEN_CHOICES)
+
+    VREME_CHOICES = tuple([(x, str(x) + ':00') for x in range(8, 20)])
+    vreme = models.IntegerField(choices=VREME_CHOICES)
+
+    casovi = models.IntegerField()
+
     class Meta:
         verbose_name_plural = "termini"
-
-    def __str__(self):
-        return self
 
 
 class UserTermin(models.Model):
